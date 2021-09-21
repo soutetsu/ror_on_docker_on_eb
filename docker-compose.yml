@@ -1,21 +1,10 @@
 version: '3'
 
 services:
-  db:
-    image: postgres:13-alpine
-    container_name: foo-db-container
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    ports:
-      - "5433:5432"
-    environment:
-      - POSTGRES_USER=rails
-      - POSTGRES_PASSWORD=xxx
-      - POSTGRES_DB=rails
   app:
     build: .
     container_name: foo-app-container
-    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails assets:precompile && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - public-data:/teshioni_order_admin/public
       - tmp-data:/teshioni_order_admin/tmp
@@ -24,15 +13,12 @@ services:
       - "3000:3000"
     environment:
       - RAILS_ENV=production
-      - DB_HOST=db
+      - DB_HOST=db-pg-sample.cmhaslvrrfhv.ap-northeast-1.rds.amazonaws.com
       - DB_PORT=5432
-      - DB_NAME=rails
-      - DB_USERNAME=rails
-      - DB_PASSWORD=xxx
-    depends_on:
-      - db
+      - DB_NAME=sampledb
+      - DB_USERNAME=digital
+      - DB_PASSWORD=T98-012?gk
 volumes:
-  db-data:
   public-data:
   tmp-data:
   log-data:
