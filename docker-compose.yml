@@ -2,15 +2,16 @@ version: '3'
 
 services:
   db:
-    image: postgres
+    image: postgres:13-alpine
     container_name: foo-db-container
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
-    # env_file: .docker-env
+      - "5433:5432"
     environment:
-      - POSTGRES_PASSWORD="xxx"
+      - POSTGRES_USER=rails
+      - POSTGRES_PASSWORD=xxx
+      - POSTGRES_DB=rails
   app:
     build: .
     container_name: foo-app-container
@@ -19,19 +20,19 @@ services:
       - public-data:/teshioni_order_admin/public
       - tmp-data:/teshioni_order_admin/tmp
       - log-data:/teshioni_order_admin/log
-    #   - .:/teshioni_order_admin
     ports:
       - "3000:3000"
     environment:
       - RAILS_ENV=production
-      - NODE_ENV=production
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_USERNAME=postgres
+      - DB_NAME=rails
+      - DB_USERNAME=rails
       - DB_PASSWORD=xxx
     depends_on:
       - db
 volumes:
+  db-data:
   public-data:
   tmp-data:
   log-data:
