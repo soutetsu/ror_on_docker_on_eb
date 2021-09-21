@@ -12,12 +12,18 @@ services:
     ports:
       - "3000:3000"
     environment:
+      # - RAILS_ENV=production
+      # - DB_HOST=db-pg-sample.cmhaslvrrfhv.ap-northeast-1.rds.amazonaws.com
+      # - DB_PORT=5432
+      # - DB_NAME=sampledb
+      # - DB_USERNAME=digital
+      # - DB_PASSWORD=T98-012?gk
       - RAILS_ENV=production
-      - DB_HOST=db-pg-sample.cmhaslvrrfhv.ap-northeast-1.rds.amazonaws.com
+      - DB_HOST=aa1seln4hxaucz6.cwmdpqsg3vac.ap-northeast-1.rds.amazonaws.com
       - DB_PORT=5432
-      - DB_NAME=sampledb
-      - DB_USERNAME=digital
-      - DB_PASSWORD=T98-012?gk
+      - DB_NAME=ebdb
+      - DB_USERNAME=rails
+      - DB_PASSWORD=password55
 volumes:
   public-data:
   tmp-data:
