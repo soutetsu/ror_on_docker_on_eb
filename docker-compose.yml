@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    container_name: foo-db-container
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    # env_file: .docker-env
+    environment:
+      - POSTGRES_PASSWORD="xxx"
+  app:
+    build: .
+    container_name: foo-app-container
+    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - public-data:/teshioni_order_admin/public
+      - tmp-data:/teshioni_order_admin/tmp
+      - log-data:/teshioni_order_admin/log
+    #   - .:/teshioni_order_admin
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=xxx
+    depends_on:
+      - db
+volumes:
+  public-data:
+  tmp-data:
+  log-data:
