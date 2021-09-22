@@ -9,6 +9,8 @@ services:
       - public-data:/foo/public
       - tmp-data:/foo/tmp
       - log-data:/foo/log
+    environment:
+      - RAILS_ENV=production
     env_file:
       - docker.rails.env
   web:
