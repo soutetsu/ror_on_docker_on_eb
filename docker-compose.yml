@@ -11,8 +11,9 @@ services:
       - log-data:/foo/log
     environment:
       - RAILS_ENV=production
+      - RAILS_SERVE_STATIC_FILES=1
     env_file:
-      - docker.rails.env
+      - .env
   web:
     build:
       context: docker_containers/nginx
