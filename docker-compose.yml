@@ -12,6 +12,8 @@ services:
     environment:
       - RAILS_ENV=production
       - RAILS_SERVE_STATIC_FILES=1
+    env_file:
+      - .env
   web:
     build:
       context: docker_containers/nginx
