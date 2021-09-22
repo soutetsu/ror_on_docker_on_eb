@@ -4,24 +4,24 @@ services:
   app:
     build: .
     container_name: foo-app-container
-    command: sh -c "rm -f tmp/pids/server.pid && bundle exec rails assets:precompile  && bundle exec rails db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: sh -c "bundle exec rails assets:precompile  && bundle exec rails db:migrate && bundle exec puma -t 5:5 -b unix:///foo/tmp/sockets/puma.sock"
     volumes:
-      - public-data:/teshioni_order_admin/public
-      - tmp-data:/teshioni_order_admin/tmp
-      - log-data:/teshioni_order_admin/log
-    ports:
-      - "3000:3000"
+      - public-data:/foo/public
+      - tmp-data:/foo/tmp
+      - log-data:/foo/log
     env_file:
       - docker.rails.env
-    # environment:
-    #   - RAILS_ENV=production
-    #   - RAILS_MASTER_KEY=e0c976bd7faed6411baee8aaf6d77c79
-    #   - RAILS_SERVE_STATIC_FILES=1
-    #   - DB_HOST=aa1seln4hxaucz6.cwmdpqsg3vac.ap-northeast-1.rds.amazonaws.com
-    #   - DB_PORT=5432
-    #   - DB_NAME=ebdb
-    #   - DB_USERNAME=rails
-    #   - DB_PASSWORD=password55
+  web:
+    build:
+      context: docker_containers/nginx
+    container_name: foo-web-container
+    volumes:
+      - public-data:/railsapp/public
+      - tmp-data:/railsapp/tmp
+    ports:
+      - 80:80
+    depends_on:
+      - app
 volumes:
   public-data:
   tmp-data:

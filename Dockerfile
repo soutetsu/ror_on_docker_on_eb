@@ -15,5 +15,3 @@ RUN gem install bundler -v 2.1.4
 RUN bundle install --without test development
 RUN yarn install --check-files --production=true
 
-# 本番環境用では puma を unix socket に bind する
-EXPOSE 3000
